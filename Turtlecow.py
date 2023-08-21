@@ -1,7 +1,7 @@
 import turtle as t
 
 # Set up the turtle
-t.speed(1)
+t.speed(15)
 t.bgcolor("white")
 t.title("Cow")
 
@@ -85,6 +85,49 @@ t.seth(-60)
 t.circle(-25,70)
 t.seth(-18)
 t.circle(-45,30)
+t.end_fill()
+
+#Drawing the ears
+#Right ear
+go(60,70)
+t.seth(-20)
+t.fillcolor("#fab4b4")
+t.begin_fill()
+t.circle(20,80)
+t.seth(120)
+t.circle(30,82)
+t.seth(-53)
+t.circle(-70,25)
+t.end_fill()
+
+t.circle(-70,-15)
+t.seth(22)
+t.fillcolor("#6b6b6b")
+t.begin_fill()
+t.circle(-30,60)
+t.seth(120)
+t.circle(30,78)
+t.end_fill()
+
+#left ear
+go(-60,70)
+t.seth(-170)
+t.fillcolor("#fab4b4")
+t.begin_fill()
+t.circle(-20,80)
+t.seth(58)
+t.circle(-30,82)
+t.seth(-129)
+t.circle(70,25)
+t.end_fill()
+
+t.circle(70,-15)
+t.seth(150)
+t.fillcolor("#6b6b6b")
+t.begin_fill()
+t.circle(30,60)
+t.seth(58)
+t.circle(-30,78)
 t.end_fill()
 
 
