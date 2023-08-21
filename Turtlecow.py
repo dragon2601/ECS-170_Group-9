@@ -64,7 +64,29 @@ t.circle(10//2, 90)
 t.end_fill()
 
 
-#drawing the ears
+#drawing the Horns
+t.fillcolor("#968566")
+go(-55,90)
+t.seth(120)
+t.begin_fill()
+t.circle(-25,100)
+t.seth(-110)
+t.circle(25,70)
+t.seth(-165)
+t.circle(45,33)
+t.end_fill()
+
+t.fillcolor("#968566")
+go(55,90)
+t.seth(60)
+t.begin_fill()
+t.circle(25,100)
+t.seth(-60)
+t.circle(-25,70)
+t.seth(-18)
+t.circle(-45,30)
+t.end_fill()
+
 
 
 # Hide the turtle
