@@ -1,6 +1,7 @@
 import turtle as t
 
 # Set up the turtle
+t.width(2)
 t.shape("turtle")
 t.speed(15)
 t.bgcolor("white")
@@ -173,6 +174,27 @@ t.circle(30//2, 90)
 t.circle(30,90)
 t.circle(30//2, 90)
 t.end_fill()
+
+#Drawing the legs
+go(-10, -88)
+t.goto(-10, -180)
+t.circle(-10, 90)
+t.goto(-20, -80)
+
+go(-10, -70)
+t.goto(-10, -180)
+t.circle(-20, -90)
+t.goto(10, -60)
+
+go(-130, -95)
+t.goto(-130, -170)
+t.circle(-15, 90)
+
+
+go(-160, -70)
+t.goto(-160, -180)
+t.circle(-15, -90)
+t.goto(-130, -60)
 
 
 # Hide the turtle
