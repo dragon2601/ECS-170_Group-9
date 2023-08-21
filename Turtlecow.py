@@ -69,4 +69,5 @@ t.end_fill()
 
 # Hide the turtle
 t.penup()
+t.hideturtle()
 t.done()
