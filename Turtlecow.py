@@ -1,6 +1,7 @@
 import turtle as t
 
 # Set up the turtle
+t.shape("turtle")
 t.speed(15)
 t.bgcolor("white")
 t.title("Cow")
