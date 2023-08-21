@@ -1,12 +1,39 @@
 from cow import CowHangman
+accepted_words = ["WELLMAN HALL"]
 
 def get_word_from_user():
-    #Prompt the user to input a word or phrase for the hangman game.
+    #Prompt the user to input a word or phrase for the hangman game and check against a database.
+    
+    def load_words_from_file(filename):
+        #Load words from a file into a set.
+        with open(filename, 'r') as file:
+            # Read the file line by line, strip whitespace, convert to uppercase, and store in a set
+            return {line.strip().upper() for line in file if line.strip()}
+
+    def add_word_to_file(filename, word):
+        #Append a word to the file.
+        with open(filename, 'a') as file:
+            file.write(f'\n{word}')
+
+    filename = "Database.rtf"
+    accepted_words = load_words_from_file(filename)
+    
     word = input("Enter the word or phrase to be guessed (spaces are allowed): ").upper()
-    while not all(char.isalpha() or char.isspace() for char in word):
-        print("Please only use letters and spaces.")
-        word = input("Enter the word or phrase to be guessed (spaces are allowed): ").upper()
+
+    # Check if the word is in the accepted words set
+    if word not in accepted_words:
+        choice = input(f"The word '{word}' is not in the accepted list. Would you like to add it? (yes/no): ").lower()
+
+        if choice == "yes":
+            add_word_to_file(filename, word)
+            print(f"'{word}' has been added to the accepted list.")
+        else:
+            print("Please choose a word from the accepted list or add a new word.")
+            return get_word_from_user()  # Recursive call to prompt the user again
+    
     return word
+
+
 
 
 def play_hangman():
