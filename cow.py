@@ -38,5 +38,4 @@ class CowHangman:
 
 #cow_game = CowHangman()
 #cow_game.lose_life()
-# Simulating losing lives
    
