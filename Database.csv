@@ -1,0 +1,173 @@
+Word,# of Letters,Category
+kleiber,7,Hall/Building
+storer,6,Hall/Building
+hutchison,9,Hall/Building
+california,10,Hall/Building
+robbins,7,Hall/Building
+kerr,4,Hall/Building
+wellman,7,Hall/Building
+hoagland,8,Hall/Building
+wickson,7,Hall/Building
+cruess,6,Hall/Building
+everson,7,Hall/Building
+geidt,5,Hall/Building
+hunt,4,Hall/Building
+roessler,8,Hall/Building
+schalm,6,Hall/Building
+young,5,Hall/Building
+kemper,6,Hall/Building
+bainer,6,Hall/Building
+ghausi,6,Hall/Building
+cottonwood,10,Hall/Building
+madrone,7,Hall/Building
+kearney,7,Hall/Building
+potter,6,Hall/Building
+laben,5,Hall/Building
+campbell,8,Hall/Building
+king,4,Hall/Building
+mrak,4,Hall/Building
+arc,3,Hall/Building
+silo,4,Hall/Building
+scc,3,Hall/Building
+sproul,6,Hall/Building
+hart,4,Hall/Building
+north,5,Hall/Building
+dutton,6,Hall/Building
+voorhies,8,Hall/Building
+wright,6,Hall/Building
+hawthorn,8,Hall/Building
+tupper,6,Hall/Building
+wall,4,Hall/Building
+walker,6,Hall/Building
+freeborn,8,Hall/Building
+memorial union,13,Hall/Building
+asmundson,9,Hall/Building
+veihmeyer,9,Hall/Building
+social sciences and humanities,27,Hall/Building
+mathematical sciences,20,Hall/Building
+cowell,6,Hall/Building
+indio,5,Hall/Building
+segundo,7,Hall/Building
+tercero,7,Hall/Building
+ryerson,7,Hall/Building
+malcolm,7,Hall/Building
+bixby,5,Hall/Building
+briggs,6,Hall/Building
+medical sciences,15,Hall/Building
+Aerospace Science and Engineering,30,major
+African American and African Studies,32,major
+Agricultural and Environmental Education,37,major
+Agricultural and Environmental Technology,38,major
+American Studies,15,major
+Animal Biology,13,major
+Animal Science,13,major
+Animal Science and Management,26,major
+Anthropology,12,major
+Applied Chemistry,16,major
+Applied Mathematics,18,major
+Applied Physics,14,major
+Art History,10,major
+Art Studio,9,major
+Asian American Studies,20,major
+Atmospheric Science,18,major
+Biochemical Engineering,22,major
+Biochemistry and Molecular Biology,31,major
+Biological Sciences,18,major
+Biological Systems Engineering,28,major
+Biomedical Engineering,21,major
+Biotechnology,13,major
+Cell Biology,11,major
+Chemical Engineering,19,major
+Chemical Physics,15,major
+Chemistry,9,major
+Chicana/Chicano Studies,22,major
+Chinese,7,major
+Cinema and Digital Media,21,major
+Civil Engineering,16,major
+Classical Civilization,21,major
+Clinical Nutrition,17,major
+Cognitive Science,16,major
+Communication,13,major
+Community and Regional Development,31,major
+Comparative Literature,21,major
+Computer Engineering,19,major
+Computer Science,15,major
+Computer Science and Engineering,29,major
+Data Science,11,major
+Design,6,major
+East Asian Studies,16,major
+Ecological Management and Restoration,34,major
+Economics,9,major
+Electrical Engineering,21,major
+English,7,major
+Entomology,10,major
+Environmental Engineering,24,major
+Environmental Horticulture and Urban Forestry,41,major
+Environmental Policy Analysis and Planning,38,major
+Environmental Science and Management,33,major
+Environmental Toxicology,23,major
+"Evolution, Ecology and Biodiversity",32,major
+Food Science,11,major
+French,6,major
+"Gender, Sexuality and Women’s Studies",33,major
+Genetics and Genomics,19,major
+Geology,7,major
+German,6,major
+Global Disease Biology,20,major
+History,7,major
+Human Biology,12,major
+Human Development,16,major
+Hydrology,9,major
+International Agricultural Development,36,major
+International Relations,22,major
+Italian,7,major
+Japanese,8,major
+Landscape Architecture,21,major
+Linguistics,11,major
+Managerial Economics,19,major
+Marine and Coastal Science — Coastal Environmental Processes or Marine Environmental Chemistry,83,major
+Marine and Coastal Science — Oceans and the Earth System,47,major
+Marine and Coastal Science—Marine Ecology and Organismal Biology,57,major
+Materials Science and Engineering,30,major
+Mathematical Analytics and Operations Research,42,major
+Mathematical and Scientific Computation,36,major
+Mathematics,11,major
+Mechanical Engineerin,20,major
+Medieval and Early Modern Studies,29,major
+Middle East/South Asia Studies,27,major
+Molecular and Medical Microbiology,31,major
+Music,5,major
+Native American Studies,21,major
+"Neurobiology, Physiology and Behavior",34,major
+Nutrition Science,16,major
+Pharmaceutical Chemistry,23,major
+Philosophy,10,major
+Physics,7,major
+Plant Biology,12,major
+Plant Sciences,13,major
+Political Science,16,major
+Political Science — Public Service,30,major
+Psychology,10,major
+Religious Studies,16,major
+Russian,7,major
+Science and Technology Studies,27,major
+Sociology,9,major
+Sociology — Organizational Studies,31,major
+Spanish,7,major
+Statistics,10,major
+Sustainable Agriculture and Food Systems,36,major
+Sustainable Environmental Design,30,major
+Systems and Synthetic Biology,26,major
+Theatre and Dance,15,major
+Viticulture and Enology,21,major
+"Wildlife, Fish and Conservation Biology",35,major
+cow,3,animal
+dog,3,animal
+cat,3,animal
+goat,4,animal
+sheep,5,animal
+turkey,6,animal
+turtle,6,animal
+squirrel,8,animal
+horse,5,animal
+llama,5,animal
