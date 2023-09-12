@@ -60,26 +60,22 @@ class EntropyBasedPlayer:
         if not potential_matches:
             return None
 
-        next_underscore_position = current_state.index("_")
-    
-        # Build a frequency distribution of letters in the potential match list
+        # Build a frequency distribution of letters in the potential match list for the first underscore
         frequency_distribution = defaultdict(int)
         for word in potential_matches:
-            letter = word[next_underscore_position]
+            letter = word[0]  # Always consider the first letter
             if letter not in self.already_guessed:
                 frequency_distribution[letter] += 1
 
-        # If no valid guesses are available from frequency distribution, guess a random letter
+        # If no new letters are available, return None (AI runs out of guesses)
         if not frequency_distribution:
-            remaining_letters = set('abcdefghijklmnopqrstuvwxyz') - set(self.already_guessed)
-            if not remaining_letters:
-                return None
-            return random.choice(list(remaining_letters))
+            return None
 
         # Use the frequency distribution and letter weights to determine the best guess
         guess = max(frequency_distribution, key=lambda k: (frequency_distribution[k], letter_weights.get(k, 0)))
         self.already_guessed.append(guess)
         return guess
+
 
     def matches_state(self, word, state):
         """Check if a word from the database matches the current guessed state pattern."""
@@ -125,23 +121,16 @@ def play_game(target_word):
             st.write(f"AI's guess is: {ai_guess}")
 
             current_pos = hangman.get_state().index("_")
-            if ai_guess in target_word:
+            if target_word[current_pos].lower() == ai_guess:
                 st.write("Right guess!")
                 hangman.update_state(ai_guess.upper())
-                player.reset_guessed()
+                player.reset_guessed()  # Resetting the guessed letters for the next position
             else:
                 st.write("Wrong guess!")
-                player.wrong_guesses.append(ai_guess)
                 cow_game.lose_life()
         else:
             st.write("AI is out of guesses.")
             break
-
-    if "_" not in hangman.get_state():
-        st.success(f"AI has successfully guessed the word: {hangman.get_state()}")
-    else:
-        st.error("AI couldn't guess the word!")
-
 
 if __name__ == "__main__":
     st.title("🎩 Hangman AI Game 🎩")
