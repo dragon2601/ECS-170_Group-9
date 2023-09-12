@@ -101,21 +101,27 @@ def play_game(target_word):
     player = EntropyBasedPlayer(word_database)
     cow_game = CowHangman()
 
-    while "_" in hangman.get_state() and not cow_game.is_game_over():
-        st.write(f"Current state: {hangman.get_state()}")
-        st.write(cow_game.display())
+    while "_" in hangman.get_state() and not cow_game.is_game_over() and not player.has_max_wrong_guesses():
+        col1, col2 = st.columns(2)  # Create two columns
+
+        # Display game state in the first column
+        col1.write(f"Current state: {hangman.get_state()}")
+
+        # Display cow's lives in the second column
+        col2.write(cow_game.display())
 
         ai_guess = player.next_guess(hangman.get_state())
         if ai_guess:
             st.write(f"AI's guess is: {ai_guess}")
 
-            if ai_guess in target_word.lower():
+            current_pos = hangman.get_state().index("_")
+            if target_word[current_pos].lower() == ai_guess:
                 st.write("Right guess!")
-                positions = [i for i, l in enumerate(target_word) if l.lower() == ai_guess]
                 hangman.update_state(ai_guess.upper())
                 player.reset_guessed()
             else:
                 st.write("Wrong guess!")
+                player.wrong_guesses.append(ai_guess)
                 cow_game.lose_life()
         else:
             st.write("AI is out of guesses.")
@@ -125,6 +131,7 @@ def play_game(target_word):
         st.success(f"AI has successfully guessed the word: {hangman.get_state()}")
     else:
         st.error("AI couldn't guess the word!")
+
 
 if __name__ == "__main__":
     st.title("🎩 Hangman AI Game 🎩")
