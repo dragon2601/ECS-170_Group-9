@@ -55,9 +55,7 @@ class EntropyBasedPlayer:
         word_length = len(current_state)
         # Filter words that don't match the current state and wrong guesses
         filtered_words = [word for word in potential_matches if self.matches_state(word, current_state)]
-    
-        st.write(f"Number of potential matches after filtering with current state: {len(filtered_words)}")  # Debugging line
-        return filtered_words
+            return filtered_words
 
 
 
