@@ -48,7 +48,6 @@ class EntropyBasedPlayer:
     def __init__(self, word_database):
         self.word_database = word_database
         self.already_guessed = []
-        self.wrong_guesses = []  # Add this line
 
     def filter_words(self, current_state):
         """Filter the word database to only words that match the current state pattern."""
@@ -63,7 +62,7 @@ class EntropyBasedPlayer:
         # Build a frequency distribution of letters in the potential match list for the first underscore
         frequency_distribution = defaultdict(int)
         for word in potential_matches:
-            letter = word[0]  # Always consider the first letter
+            letter = word[current_state.index("_")]  # Consider the letter for the first underscore
             if letter not in self.already_guessed:
                 frequency_distribution[letter] += 1
 
@@ -75,7 +74,6 @@ class EntropyBasedPlayer:
         guess = max(frequency_distribution, key=lambda k: (frequency_distribution[k], letter_weights.get(k, 0)))
         self.already_guessed.append(guess)
         return guess
-
 
     def matches_state(self, word, state):
         """Check if a word from the database matches the current guessed state pattern."""
@@ -137,5 +135,3 @@ if __name__ == "__main__":
     user_word = st.text_input("Enter your word:")
     if user_word:
         play_game(user_word.lower())
-
-
