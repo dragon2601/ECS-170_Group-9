@@ -112,7 +112,7 @@ def play_game(target_word):
             if ai_guess in target_word.lower():
                 st.write("Right guess!")
                 positions = [i for i, l in enumerate(target_word) if l.lower() == ai_guess]
-                hangman.update_state(positions, ai_guess.upper())
+                hangman.update_state(ai_guess.upper())
                 player.reset_guessed()
             else:
                 st.write("Wrong guess!")
