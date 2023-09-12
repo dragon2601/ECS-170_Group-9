@@ -50,7 +50,8 @@ class EntropyBasedPlayer:
     def filter_words(self, current_state):
         word_length = len(current_state)
         potential_matches = [word for word in self.word_database if len(word) == word_length]
-        st.write(f"Number of potential matches based on word length: {len(potential_matches)}")
+        for i in potential_matches:
+            st.write(i)
         filtered_words = [word for word in potential_matches if self.matches_state(word, current_state)]
         return filtered_words
 
@@ -74,14 +75,13 @@ class EntropyBasedPlayer:
         return guess
 
     def matches_state(self, word, state):
-        """Check if a word from the database matches the current guessed state pattern."""
         for w, s in zip(word, state):
             if s != '_' and w.lower() != s.lower():
                 return False
-            if s == '_' and w.lower() in self.already_guessed:
-                return False
+        position = state.index('_')
+        if word[position] in self.wrong_guesses:
+            return False
         return True
-
 
     def reset_guessed(self):
         self.already_guessed = []
