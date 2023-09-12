@@ -94,11 +94,51 @@ class EntropyBasedPlayer:
         self.wrong_guesses = []
 
 class CowHangman:
-    def __init__(self):
-        self.lives = 7
+     def __init__(self):
+        self.lives = 6
+
+        # Define the cow's parts in an accumulative manner
+        self.cow_parts = [
+            '''
+             ^__^
+            ''',
+            '''
+             ^__^
+             (oo)
+            ''',
+            '''
+             ^__^
+             (oo)\_______
+            ''',
+            '''
+             ^__^
+             (oo)\_______
+             (__)\       
+            ''',
+            '''
+             ^__^
+             (oo)\_______
+             (__)\       )\/\\
+            ''',
+            '''
+             ^__^
+             (oo)\_______
+             (__)\       )\/\\
+                 ||----w |
+                 ||     ||
+            '''
+        ]
+
+    def display_cow(self):
+        parts_to_display = min(5, 6 - self.lives)  # This ensures that the maximum value of parts_to_display is 5
+        st.write(self.cow_parts[parts_to_display])
 
     def lose_life(self):
-        self.lives -= 1
+        if self.lives > 0:
+            self.lives -= 1
+            self.display_cow()
+        else:
+            st.write("No more lives!")
 
     def is_game_over(self):
         return self.lives <= 0
@@ -141,7 +181,7 @@ def play_game(target_word):
 
 
 if __name__ == "__main__":
-    st.title("🎩 Hangman AI Game 🎩")
+    st.title("🐄 Hangman AI Game 🐄")
     user_word = st.text_input("Enter your word:")
     if user_word:
         play_game(user_word.lower())
