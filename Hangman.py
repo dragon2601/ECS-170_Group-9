@@ -126,43 +126,44 @@ def run_game():
 
         # If the guess is a complete word
         if len(guess) == st.session_state.word_length:
-            is_word = st.radio(f"Is the word {guess}?", ["Yes", "No"])
-            if is_word == 'Yes':
+            is_word_right = st.button(f"Is the word {guess}? - Right")
+            is_word_wrong = st.button(f"Is the word {guess}? - Wrong")
+            if is_word_right:
                 st.write("AI won!")
                 st.stop()
-            else:
+            elif is_word_wrong:
                 st.write("AI lost!")
                 st.stop()
-
         # If the AI cannot guess anymore
         elif guess is None:
             st.write("AI is out of guesses!")
             st.stop()
-
-        st.write("AI guesses:", guess)
-        is_correct = st.radio("Is the guess correct?", ["Yes", "No"])
-
-        if is_correct == 'Yes':
-            positions = []
-            word_list = list(st.session_state.hangman.get_state())
-            for idx, char in enumerate(word_list):
-                if char == "_":
-                    word_list[idx] = guess
-                    positions.append(idx)
-                    break
-            st.session_state.hangman.update_state(positions, guess)
-            st.session_state.player.reset_guessed()
         else:
-            st.write("Guess is incorrect.")
-            st.session_state.cow_game.lose_life()
-            st.write(st.session_state.cow_game.display())
-            if st.session_state.cow_game.is_game_over():
-                st.write("AI lost!")
-                st.stop()
+            st.write("AI guesses:", guess)
+            is_guess_right = st.button("Right")
+            is_guess_wrong = st.button("Wrong")
 
+            if is_guess_right:
+                positions = []
+                word_list = list(st.session_state.hangman.get_state())
+                for idx, char in enumerate(word_list):
+                    if char == "_":
+                        word_list[idx] = guess
+                        positions.append(idx)
+                        break
+                st.session_state.hangman.update_state(positions, guess)
+                st.session_state.player.reset_guessed()
+            elif is_guess_wrong:
+                st.write("Guess is incorrect.")
+                st.session_state.cow_game.lose_life()
+                st.write(st.session_state.cow_game.display())
+                if st.session_state.cow_game.is_game_over():
+                    st.write("AI lost!")
+                    st.stop()
     else:
         st.write("AI won!")
         st.stop()
+
 
 if __name__ == "__main__":
     st.title("Hangman AI Game")
