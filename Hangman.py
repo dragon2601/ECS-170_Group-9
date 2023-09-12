@@ -48,6 +48,8 @@ class EntropyBasedPlayer:
     def __init__(self, word_database):
         self.word_database = word_database
         self.already_guessed = []
+        self.wrong_guesses = []
+
     def filter_words(self, current_state):
         """Filter the word database to only words that match the current state pattern."""
         word_length = len(current_state)
@@ -132,6 +134,7 @@ def play_game(target_word):
                 player.reset_guessed()  # Resetting the guessed letters for the next position
             else:
                 st.write("Wrong guess!")
+                player.wrong_guesses.append(ai_guess)  
                 cow_game.lose_life()
         else:
             st.write("AI is out of guesses.")
