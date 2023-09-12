@@ -61,7 +61,7 @@ class EntropyBasedPlayer:
     def filter_words(self, word_length):
         return [word for word in self.word_database if len(word) == word_length]
 
-    def next_guess(self, current_state):
+    '''def next_guess(self, current_state):
         potential_matches = [word for word in self.filter_words(len(current_state)) if self.matches_state(word, current_state)]
     
         # If only one potential word match is left
@@ -82,8 +82,40 @@ class EntropyBasedPlayer:
         # Prioritize based on count first, and then by letter weight in case of a tie.
         guess = max(frequency_distribution, key=lambda k: (frequency_distribution[k], letter_weights.get(k, 0)))
         self.already_guessed.append(guess)
-        return guess
-    
+        return guess'''
+    def next_guess(self, current_state):
+        next_position_to_guess = current_state.index('_')
+
+        # Filter words in the database based on the current state
+        possible_words = [word for word in self.word_database if self.match_pattern(word, current_state)]
+
+        # If there are no possible words left, return None
+        if not possible_words:
+            return None
+
+        letter_counts = defaultdict(int)
+
+        # Count the occurrence of each letter in the next position among the possible words
+        for word in possible_words:
+            letter_counts[word[next_position_to_guess]] += 1
+
+        # Sort the letters by their counts and get the most frequent one
+        sorted_letters = sorted(letter_counts.items(), key=lambda x: x[1], reverse=True)
+
+        return sorted_letters[0][0].lower()
+
+    def match_pattern(self, word, pattern):
+        # Only consider words of the same length
+        if len(word) != len(pattern):
+            return False
+
+        # Check if word matches the given pattern
+        for i in range(len(word)):
+            if pattern[i] != '_' and pattern[i].lower() != word[i].lower():
+                return False
+
+        return True
+
 
     def matches_state(self, word, state):
         for w, s in zip(word, state):
