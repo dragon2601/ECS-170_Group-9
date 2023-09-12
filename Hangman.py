@@ -70,7 +70,8 @@ class EntropyBasedPlayer:
 
         if sorted_letters:
             next_guess = sorted_letters[0][0]
-            self.already_guessed.add(next_guess)
+            if next_guess:
+                self.already_guessed.add(next_guess)
             return next_guess
         else:
             return None
@@ -86,7 +87,7 @@ class EntropyBasedPlayer:
 
 
     def reset_guessed(self):
-        self.already_guessed = []
+        self.already_guessed = set()
         self.wrong_guesses = []
         
     def has_max_wrong_guesses(self):
@@ -141,5 +142,6 @@ def play_game(target_word):
 if __name__ == "__main__":
     st.title("🎩 Hangman AI Game 🎩")
     user_word = st.text_input("Enter your word:")
-    if user_word:
+    if user_word and user_word.isalpha():
         play_game(user_word)
+
