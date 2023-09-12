@@ -5,6 +5,8 @@ from collections import defaultdict
 
 df = pd.read_csv("Database.csv")
 word_database = df['Word'].tolist()
+word_database = [word.lower() for word in df['Word'].tolist()]
+
 
 def compute_letter_weights(word_database):
     total_letters = 0
@@ -123,7 +125,7 @@ def play_game(target_word):
             st.write(f"AI's guess is: {ai_guess}")
 
             current_pos = hangman.get_state().index("_")
-            if target_word[current_pos].lower() == ai_guess:
+            if ai_guess in target_word:
                 st.write("Right guess!")
                 hangman.update_state(ai_guess.upper())
                 player.reset_guessed()
@@ -145,5 +147,6 @@ if __name__ == "__main__":
     st.title("🎩 Hangman AI Game 🎩")
     user_word = st.text_input("Enter your word:")
     if user_word:
-        play_game(user_word)
+        play_game(user_word.lower())
+
 
