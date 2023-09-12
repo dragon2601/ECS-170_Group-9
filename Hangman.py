@@ -53,8 +53,8 @@ class EntropyBasedPlayer:
         #for i in potential_matches:
             #st.write(i)
         filtered_words = [word for word in potential_matches if self.matches_state(word, current_state)]
-        for i in filtered_words:
-            st.write(i)
+        #for i in filtered_words:
+            #st.write(i)
         return filtered_words
 
     def next_guess(self, current_state):
@@ -85,13 +85,10 @@ class EntropyBasedPlayer:
                 return False
     
         position = state.index('_')
-        st.write(f"Next guessing position: {position}")
 
         if word[position] in self.wrong_guesses:
-            st.write(f"Word {word} discarded due to previous wrong guess at position {position}: {word[position]}")
             return False
         
-        st.write(f"Word {word} is a potential match for state {state}")
         return True
 
     def reset_guessed(self):
