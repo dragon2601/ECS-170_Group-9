@@ -100,34 +100,35 @@ class CowHangman:
         # Define the cow's parts in an accumulative manner
         self.cow_parts = [
             '''
-             ^__^
+        ^__^
             ''',
             '''
-             ^__^
-             (oo)
+        ^__^
+        (oo)
             ''',
             '''
-             ^__^
-             (oo)\_______
+        ^__^
+        (oo)\\_______
             ''',
             '''
-             ^__^
-             (oo)\_______
-             (__)\       
+        ^__^
+        (oo)\\_______
+        (__)\\       
             ''',
             '''
-             ^__^
-             (oo)\_______
-             (__)\       )\/\\
+        ^__^
+        (oo)\\_______
+        (__)\\       )\\/\\
             ''',
             '''
-             ^__^
-             (oo)\_______
-             (__)\       )\/\\
-                 ||----w |
-                 ||     ||
+        ^__^
+        (oo)\\_______
+        (__)\\       )\\/\\
+            ||----w |
+            ||     ||
             '''
         ]
+
 
     def display_cow(self):
         parts_to_display = min(5, 6 - self.lives)  # This ensures that the maximum value of parts_to_display is 5
