@@ -133,6 +133,12 @@ def play_game(target_word):
         else:
             st.write("AI is out of guesses.")
             break
+    
+    if "_" not in hangman.get_state():
+        st.write("Congratulations! The AI successfully guessed the word!")
+    elif cow_game.is_game_over():
+        st.write("Game Over. The AI couldn't guess the word.")
+
 
 if __name__ == "__main__":
     st.title("🎩 Hangman AI Game 🎩")
