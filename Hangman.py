@@ -135,6 +135,5 @@ def play_game(target_word):
         st.error("AI couldn't guess the word!")
 
 if __name__ == "__main__":
-    user_word = st.text_input("Enter your word:").upper()
     if user_word:
         play_game(user_word)
