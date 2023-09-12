@@ -89,8 +89,9 @@ class EntropyBasedPlayer:
         for w, s in zip(word, state):
             if s != '_' and w.lower() != s.lower():
                 return False
-            if s == '_' and w.lower() in self.already_guessed:
-                return False
+        position = state.index('_')  # Get the current guessing position
+        if word[position] in self.wrong_guesses:  # Check only the current position against wrong guesses
+            return False
         return True
 
     def reset_guessed(self):
