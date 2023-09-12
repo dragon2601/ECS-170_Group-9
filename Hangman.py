@@ -126,20 +126,27 @@ def play_game(target_word):
 
         # Display the AI's guess
         ai_guess = player.next_guess(hangman.get_state())
-        st.write(f"AI's guess is: {ai_guess}")
+        if ai_guess:
+            st.write(f"AI's guess is: {ai_guess}")
+        else:
+            st.write("AI is out of guesses.")
 
         # Check if the guess is in the current position to be revealed
         current_pos = hangman.get_state().index("_")  # Get the first underscore position
-        if target_word[current_pos] == ai_guess:
-            hangman.update_state([current_pos], ai_guess)
+
+        if target_word[current_pos].lower() == ai_guess:  # Ensure a case insensitive comparison
+            st.write("Right guess!")
+            hangman.update_state([current_pos], ai_guess.upper())  # Update state with the correct letter's case
             player.reset_guessed()
         else:
+            st.write("Wrong guess!")
             cow_game.lose_life()
 
     if "_" not in hangman.get_state():
-        st.success("AI has successfully guessed the word!")
+        st.success(f"AI has successfully guessed the word: {hangman.get_state()}")
     else:
         st.error("AI couldn't guess the word!")
+
 
 if __name__ == "__main__":
     user_word = st.text_input("Enter your word:").upper()  # Assuming words in database are uppercase
