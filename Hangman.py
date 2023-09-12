@@ -131,8 +131,10 @@ class CowHangman:
 
 
     def display_cow(self):
-        parts_to_display = min(5, 6 - self.lives)  # This ensures that the maximum value of parts_to_display is 5
-        st.write(self.cow_parts[parts_to_display])
+        parts_to_display = min(5, 6 - self.lives)
+        for line in self.cow_parts[parts_to_display].split('\n'):
+            st.write(line)
+
 
     def lose_life(self):
         if self.lives > 0:
