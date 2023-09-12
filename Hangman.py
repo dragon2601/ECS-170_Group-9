@@ -67,6 +67,13 @@ class EntropyBasedPlayer:
             if letter not in self.already_guessed:
                 frequency_distribution[letter] += 1
 
+        # If no valid guesses are available from frequency distribution, guess a random letter
+        if not frequency_distribution:
+            remaining_letters = set('abcdefghijklmnopqrstuvwxyz') - set(self.already_guessed)
+            if not remaining_letters:
+                return None
+            return random.choice(list(remaining_letters))
+
         # Use the frequency distribution and letter weights to determine the best guess
         guess = max(frequency_distribution, key=lambda k: (frequency_distribution[k], letter_weights.get(k, 0)))
         self.already_guessed.append(guess)
