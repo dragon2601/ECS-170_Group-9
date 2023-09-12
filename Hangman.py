@@ -46,6 +46,7 @@ class EntropyBasedPlayer:
     def __init__(self, word_database):
         self.word_database = word_database
         self.already_guessed = []
+        self.wrong_guesses = []  # Add this line
 
     def filter_words(self, current_state):
         """Filter the word database to only words that match the current state pattern."""
