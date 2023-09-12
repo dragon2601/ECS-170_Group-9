@@ -112,12 +112,20 @@ class CowHangman:
         return f"Lives left: {self.lives}"
 
 # Streamlit specific game initialization
-def start_game():
-    st.session_state.word_length = st.number_input("Enter the length of the word:", min_value=1, value=5, step=1)
-    st.session_state.hangman = HangmanGame(st.session_state.word_length)
-    st.session_state.player = EntropyBasedPlayer(word_database)
-    st.session_state.cow_game = CowHangman()
-    st.session_state.game_started = True
+def start_page():
+    st.title("Hangman AI Game")
+    st.write("Welcome to the Hangman AI game! Let the AI guess your word!")
+    
+    # Choose word length
+    st.session_state.word_length = st.number_input("Enter the length of the word:", min_value=1, max_value=20, value=8)
+
+    # Start game button
+    if st.button("Start Game"):
+        st.session_state.hangman = HangmanGame(st.session_state.word_length)
+        st.session_state.player = EntropyBasedPlayer(word_database)
+        st.session_state.cow_game = CowHangman()
+        st.session_state.page = "game_page"
+
 
 def run_game():
     if "_" in st.session_state.hangman.get_state():
@@ -166,13 +174,15 @@ def run_game():
 
 
 if __name__ == "__main__":
-    st.title("Hangman AI Game")
-    
-    if 'game_started' not in st.session_state or not st.session_state.game_started:
-        start_game_button = st.button("Start Game")
-        if start_game_button:
-            start_game()
-    else:
+    # Check for page in session state
+    if "page" not in st.session_state:
+        st.session_state.page = "start_page"
+
+    # Page router
+    if st.session_state.page == "start_page":
+        start_page()
+    elif st.session_state.page == "game_page":
         run_game()
+
 
     
