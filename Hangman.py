@@ -137,6 +137,12 @@ def run_game():
     if "waiting_for_feedback" not in st.session_state:
         st.session_state.waiting_for_feedback = False
 
+    # Check if AI has already guessed the word
+    if "_" not in st.session_state.hangman.get_state():
+        st.write("AI has successfully guessed the word!")
+        st.session_state.page = "start_page"
+        return
+
     if not st.session_state.waiting_for_feedback:
         st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
         st.session_state.waiting_for_feedback = True
@@ -163,9 +169,6 @@ def run_game():
 
         # Allow AI to make the next guess
         st.session_state.waiting_for_feedback = False
-
-
-
 if __name__ == "__main__":
     # Check for page in session state
     if "page" not in st.session_state:
