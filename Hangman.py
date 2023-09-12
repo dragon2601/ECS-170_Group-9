@@ -217,10 +217,13 @@ def information_section():
 
     st.sidebar.write('**3. Challenges faced and their resolutions**')
     st.sidebar.write('One of the main challenges was handling repeated letters in words and efficiently filtering the database of words based on the game’s current state. This was resolved by refining the word filtering algorithm and leveraging a weighted letter-frequency methodology.')
-
+    
+    st.sidebar.write('**Team Members:**')
+    st.sidebar.write('Olive Manupau, Julie Khalilieh Romman, Alex Prado, Muhammad Reza, Atharav Ganesh Samant')
+    
 if __name__ == "__main__":
     st.title("🐄 Hangman AI Game 🐄")
-    information_section()
+    st.header("ECS 170 - GROUP 9")
     user_word = st.text_input("Enter your word:")
     if user_word:
         play_game(user_word.lower())
