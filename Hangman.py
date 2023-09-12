@@ -96,8 +96,6 @@ class EntropyBasedPlayer:
 class CowHangman:
     def __init__(self):
         self.lives = 6
-
-        # Define the cow's parts in an accumulative manner
         self.cow_parts = [
             '''
         ^__^
@@ -209,6 +207,16 @@ def play_game(target_word):
     elif cow_game.is_game_over():
         st.write("Game Over. The AI couldn't guess the word.")
 
+def information_section():
+    st.sidebar.header('📖 Information Section 📖')
+    st.sidebar.write('**1. Brief Overview of the Project**')
+    st.sidebar.write('This project is a Hangman game where the AI tries to guess the word provided by the user.')
+
+    st.sidebar.write('**2. Key AI methodologies and techniques employed**')
+    st.sidebar.write('The AI uses frequency analysis and word filtering based on user feedback to narrow down possible word choices. It leverages entropy for making educated guesses.')
+
+    st.sidebar.write('**3. Challenges faced and their resolutions**')
+    st.sidebar.write('One of the main challenges was handling repeated letters in words and efficiently filtering the database of words based on the game’s current state. This was resolved by refining the word filtering algorithm and leveraging a weighted letter-frequency methodology.')
 
 if __name__ == "__main__":
     st.title("🐄 Hangman AI Game 🐄")
