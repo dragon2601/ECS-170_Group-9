@@ -112,52 +112,28 @@ class CowHangman:
         return f"Lives left: {self.lives}"
 
 
-def start_page():
+def play_game(target_word):
     st.title("Hangman AI Game")
-    st.write("Welcome to the Hangman AI game! Let the AI guess your word!")
-    
-    # Choose word length
-    st.session_state.word_length = st.number_input("Enter the length of the word:", min_value=1, max_value=20, value=8)
-
-    # Start game button
-    if st.button("Start Game", key="start_game_btn"):
-        st.session_state.hangman = HangmanGame(st.session_state.word_length)
-        st.session_state.player = EntropyBasedPlayer(word_database)
-        st.session_state.cow_game = CowHangman()
-        st.session_state.page = "game_page"
-
-def play_game():
-    st.title("Hangman AI Game")
-    st.write("Welcome to the Hangman AI game! Let the AI guess your word!")
+    st.write("Welcome to the Hangman AI game! Let's see if the AI can guess your word.")
 
     # Initialize the game and player
-    hangman = HangmanGame(st.session_state.word_length)
+    hangman = HangmanGame(len(target_word))
     player = EntropyBasedPlayer(word_database)
     cow_game = CowHangman()
 
-    while True:
+    while "_" in hangman.get_state() and not cow_game.is_game_over():
         st.write(f"Current state: {hangman.get_state()}")
-
-        # If word is completely guessed or game is over, break
-        if "_" not in hangman.get_state() or cow_game.is_game_over():
-            break
 
         # Display the AI's guess
         ai_guess = player.next_guess(hangman.get_state())
         st.write(f"AI's guess is: {ai_guess}")
 
-        # Get the user feedback using number input
-        feedback = st.number_input("Is the guess correct? (1 for Yes, 0 for No)", min_value=0, max_value=1)
-
-        if feedback == 1:  # Correct guess
-            positions = [i for i, char in enumerate(hangman.get_state()) if char == "_"]
+        if ai_guess in target_word:  # Correct guess
+            positions = [i for i, char in enumerate(target_word) if char == ai_guess]
             hangman.update_state(positions, ai_guess)
             player.reset_guessed()
         else:  # Wrong guess
             cow_game.lose_life()
-
-        # Clear the feedback for the next loop iteration
-        st.session_state['feedback'] = None
 
     if "_" not in hangman.get_state():
         st.success("AI has successfully guessed the word!")
@@ -165,13 +141,10 @@ def play_game():
         st.error("AI couldn't guess the word!")
 
 if __name__ == "__main__":
-    if "page" not in st.session_state:
-        st.session_state.page = "start_page"
+    user_word = st.text_input("Enter your word:").upper()  # Assuming words in database are uppercase
+    if user_word:
+        play_game(user_word)
 
-    if st.session_state.page == "start_page":
-        start_page()
-    elif st.session_state.page == "game_page":
-        play_game()
 
 
 
