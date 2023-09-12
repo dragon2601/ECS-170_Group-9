@@ -157,16 +157,13 @@ class CowHangman:
 
 
 def play_game(target_word):
-    st.title("🎩 Hangman AI Game 🎩")
-    st.markdown("**Welcome to the Hangman AI game!** Let's see if the AI can guess your word.")
-
     # Initialize the game and player
     hangman = HangmanGame(len(target_word))
     player = EntropyBasedPlayer(word_database)
     cow_game = CowHangman()
 
     while "_" in hangman.get_state() and not cow_game.is_game_over():
-        col1, col2 = st.beta_columns(2)
+        col1, col2 = st.columns(2)
         with col1:
             st.markdown(f"### Current state: {hangman.get_state()}")
         with col2:
@@ -202,8 +199,8 @@ def play_game(target_word):
         st.experimental_rerun()
 
 if __name__ == "__main__":
-    st.markdown("**Enter your word:**")
-    user_word = st.text_input("", placeholder="E.g., California").upper()
+    st.title("🎩 Hangman AI Game 🎩")
+    user_word = st.text_input("Enter your word:", "").upper()
     if user_word:
         play_game(user_word)
 
