@@ -48,11 +48,19 @@ class EntropyBasedPlayer:
     def __init__(self, word_database):
         self.word_database = word_database
         self.already_guessed = []
-
     def filter_words(self, current_state):
         """Filter the word database to only words that match the current state pattern."""
         word_length = len(current_state)
-        return [word for word in self.word_database if len(word) == word_length and self.matches_state(word, current_state)]
+        filtered_words = [word for word in self.word_database if len(word) == word_length and self.matches_state(word, current_state)]
+    
+        # Add a debugging line to check if "Voorhies" is in the filtered list.
+        if "voorhies" in filtered_words:
+            st.write("Voorhies is a potential match!")
+        else:
+            st.write("Voorhies is NOT a potential match!")
+    
+        return filtered_words
+
 
     def next_guess(self, current_state):
         potential_matches = self.filter_words(current_state)
