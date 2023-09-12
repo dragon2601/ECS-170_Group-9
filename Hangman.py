@@ -2,6 +2,9 @@ import sys
 import pandas as pd
 import streamlit as st
 from cow import CowHangman
+import random
+import string
+
 
 
 df = pd.read_csv("Database.csv")
@@ -91,66 +94,49 @@ class EntropyBasedPlayer:
     def reset_guessed(self):
         self.already_guessed = []
 
+def initialize():
+    st.session_state.number_of_letters = 0
+    st.session_state.game_started = False
+    st.session_state.cow_game = CowHangman()
+    st.session_state.word_state = None
+    st.session_state.guesses = []
+
 
 def main():
-    st.title('Entropy-based Hangman Game')
+    # Title
+    st.title("Hangman Game")
+
+    if not st.session_state:
+        initialize()
+
+    if not st.session_state.game_started:
+        st.header("Setup")
+        st.session_state.number_of_letters = st.number_input("Enter the number of letters:", min_value=1, max_value=15, value=5)
+        if st.button("Start Game"):
+            st.session_state.game_started = True
+            st.session_state.word_state = ['_'] * int(st.session_state.number_of_letters)
     
-    if 'page' not in st.session_state:
-        st.session_state.page = 'start'
+    if st.session_state.game_started:
+        st.header("Game in Progress")
+        st.text("Word: " + ' '.join(st.session_state.word_state))
+        st.text(f"Lives: {st.session_state.cow_game.lives}")
 
-    # Start page
-    if st.session_state.page == 'start':
-        if st.button('Start Game'):
-            # Initialize the game's necessary variables
-            st.session_state.cow_game = CowHangman()
-            st.session_state.word_length = st.slider("Select the word length", 1, 100, 5)
-            st.session_state.hangman = HangmanGame(st.session_state.word_length)
-            st.session_state.player = EntropyBasedPlayer(word_database)
-            st.session_state.page = 'game'
-            
-    # Game page
-    elif st.session_state.page == 'game':
-        st.write("Current state:", st.session_state.hangman.get_state())
-        guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
-        st.write(f"AI guesses: {guess}")
+        guess = random.choice(string.ascii_uppercase)
+        st.text(f"Computer guesses: {guess}")
 
-        if guess is None:
-            st.write("AI is out of guesses!")
-            if st.session_state.cow_game.lives <= 0:
-                st.write("AI lost!")
-                if st.button('End'):
-                    st.session_state.page = 'start'
-                    return
+        if st.button("Wrong Guess"):
+            st.session_state.cow_game.lose_life()
+            st.session_state.guesses.append(guess)
 
-        elif len(guess) == st.session_state.word_length:
-            st.write(f"Is the word {guess}?")
-            if st.button('Yes'):
-                st.write("AI won!")
-                if st.button('End'):
-                    st.session_state.page = 'start'
-                    return
-            elif st.button('No'):
-                st.write("AI lost!")
-                if st.button('End'):
-                    st.session_state.page = 'start'
-                    return
-        else:
-            st.write("Is the guess correct?")
-            if st.button('Correct'):
-                # Same logic as before...
-                positions = [idx for idx, char in enumerate(st.session_state.hangman.get_state()) if char == "_"]
-                st.session_state.hangman.update_state(positions, guess)
-                st.session_state.player.reset_guessed()
-            elif st.button('Incorrect'):
-                st.session_state.cow_game.lose_life()
-                st.write(f"Lives remaining: {st.session_state.cow_game.lives}")
-                if st.session_state.cow_game.lives <= 0:
-                    st.write("AI lost!")
-                    if st.button('End'):
-                        st.session_state.page = 'start'
-                        return
+        if st.button("End Game"):
+            initialize()
+
+        # Display cow based on lives
+        st.text(st.session_state.cow_game.display_cow())
+
 
 if __name__ == "__main__":
     main()
+
 
     
