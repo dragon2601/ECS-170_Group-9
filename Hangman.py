@@ -103,8 +103,12 @@ class EntropyBasedPlayer:
 
         # Sort the letters by their counts and get the most frequent one
         sorted_letters = sorted(letter_counts.items(), key=lambda x: x[1], reverse=True)
+    
+        guessed_letter = sorted_letters[0][0].lower()
+        self.already_guessed.append(guessed_letter)  # Add the guessed letter to the list
 
-        return sorted_letters[0][0].lower()
+        return guessed_letter
+    
 
     def match_pattern(self, word, pattern):
         # Only consider words of the same length
