@@ -101,8 +101,6 @@ class CowHangman:
         return f"Lives left: {self.lives}"
 
 def play_game(target_word):
-    st.title("🎩 Hangman AI Game 🎩")
-    st.write("Enter your word:")
 
     hangman = HangmanGame(len(target_word))
     player = EntropyBasedPlayer(word_database)
@@ -135,5 +133,7 @@ def play_game(target_word):
         st.error("AI couldn't guess the word!")
 
 if __name__ == "__main__":
+    st.title("🎩 Hangman AI Game 🎩")
+    st.write("Enter your word:")
     if user_word:
         play_game(user_word)
