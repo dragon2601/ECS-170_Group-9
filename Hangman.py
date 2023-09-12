@@ -48,6 +48,8 @@ class EntropyBasedPlayer:
     def __init__(self, word_database):
         self.word_database = word_database
         self.already_guessed = set()
+        self.wrong_guesses = []  # Initialize the wrong_guesses attribute
+
 
     def filter_words(self, pattern):
         return [word for word in self.word_database if self.match_pattern(word, pattern)]
@@ -86,6 +88,10 @@ class EntropyBasedPlayer:
     def reset_guessed(self):
         self.already_guessed = []
         self.wrong_guesses = []
+        
+    def has_max_wrong_guesses(self):
+    return len(self.wrong_guesses) >= 7
+
 
 class CowHangman:
     def __init__(self):
@@ -106,7 +112,7 @@ def play_game(target_word):
     player = EntropyBasedPlayer(word_database)
     cow_game = CowHangman()
 
-    while "_" in hangman.get_state() and not cow_game.is_game_over() and not player.game_over:
+    while "_" in hangman.get_state() and not cow_game.is_game_over() and not player.has_max_wrong_guesses():
         st.write(f"Current state: {hangman.get_state()}")
         st.write(cow_game.display())
 
@@ -134,6 +140,6 @@ def play_game(target_word):
 
 if __name__ == "__main__":
     st.title("🎩 Hangman AI Game 🎩")
-    st.write("Enter your word:")
+    user_word = st.text_input("Enter your word:")
     if user_word:
         play_game(user_word)
