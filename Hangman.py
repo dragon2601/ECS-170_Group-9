@@ -94,7 +94,7 @@ class EntropyBasedPlayer:
         self.wrong_guesses = []
 
 class CowHangman:
-     def __init__(self):
+    def __init__(self):
         self.lives = 6
 
         # Define the cow's parts in an accumulative manner
