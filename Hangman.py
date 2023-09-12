@@ -50,9 +50,11 @@ class EntropyBasedPlayer:
     def filter_words(self, current_state):
         word_length = len(current_state)
         potential_matches = [word for word in self.word_database if len(word) == word_length]
-        for i in potential_matches:
-            st.write(i)
+        #for i in potential_matches:
+            #st.write(i)
         filtered_words = [word for word in potential_matches if self.matches_state(word, current_state)]
+        for i in filtered_words:
+            st.write(i)
         return filtered_words
 
     def next_guess(self, current_state):
