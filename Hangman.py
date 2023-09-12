@@ -94,12 +94,23 @@ class EntropyBasedPlayer:
     def reset_guessed(self):
         self.already_guessed = []
 
+import streamlit as st
+from cow import CowHangman
+import random
+import string
+import pandas as pd
+
+# Your provided code starts here
+df = pd.read_csv("Database.csv")
+word_database = df['Word'].tolist()
+game_over = False
+
 def initialize():
     st.session_state.number_of_letters = 0
     st.session_state.game_started = False
     st.session_state.cow_game = CowHangman()
-    st.session_state.word_state = None
-    st.session_state.guesses = []
+    st.session_state.hangman_game = HangmanGame(st.session_state.number_of_letters)
+    st.session_state.player = EntropyBasedPlayer(word_database)
 
 
 def main():
@@ -114,19 +125,24 @@ def main():
         st.session_state.number_of_letters = st.number_input("Enter the number of letters:", min_value=1, max_value=15, value=5)
         if st.button("Start Game"):
             st.session_state.game_started = True
-            st.session_state.word_state = ['_'] * int(st.session_state.number_of_letters)
+            st.session_state.hangman_game = HangmanGame(st.session_state.number_of_letters)
+            st.session_state.player = EntropyBasedPlayer(word_database)
     
     if st.session_state.game_started:
         st.header("Game in Progress")
-        st.text("Word: " + ' '.join(st.session_state.word_state))
+        st.text("Word: " + st.session_state.hangman_game.get_state())
         st.text(f"Lives: {st.session_state.cow_game.lives}")
 
-        guess = random.choice(string.ascii_uppercase)
+        guess = st.session_state.player.next_guess(st.session_state.hangman_game.get_state())
         st.text(f"Computer guesses: {guess}")
 
+        if st.button("Right Guess"):
+            # Logic to update the state with the correct guess goes here
+            # For now, we'll just move on to the next guess
+            pass
+        
         if st.button("Wrong Guess"):
             st.session_state.cow_game.lose_life()
-            st.session_state.guesses.append(guess)
 
         if st.button("End Game"):
             initialize()
@@ -137,6 +153,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
     
