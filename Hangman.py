@@ -7,20 +7,18 @@ df = pd.read_csv("Database.csv")
 word_database = df['Word'].tolist()
 word_database = [word.lower() for word in df['Word'].tolist()]
 
-
 def compute_letter_weights(word_database):
     total_letters = 0
     letter_counts = {char: 0 for char in 'abcdefghijklmnopqrstuvwxyz'}
-    
+
     for word in word_database:
-        word = word.lower()  # Ensure the word is in lowercase for consistency
+        word = word.lower()
         for letter in word:
             if letter in letter_counts:
                 letter_counts[letter] += 1
                 total_letters += 1
 
     letter_frequencies = {letter: (count / total_letters) * 100 for letter, count in letter_counts.items()}
-    
     return letter_frequencies
 
 letter_weights = compute_letter_weights(word_database)
@@ -41,7 +39,6 @@ class HangmanGame:
         return False
 
     def update_state(self, letter):
-        """Update the game state by replacing the next underscore with the given letter."""
         self.state = self.state.replace("_", letter, 1)
 
 class EntropyBasedPlayer:
@@ -51,44 +48,37 @@ class EntropyBasedPlayer:
         self.wrong_guesses = []
 
     def filter_words(self, current_state):
-        """Filter the word database to only words that match the current state pattern."""
         word_length = len(current_state)
-        # Filter words that don't match the current state and wrong guesses
+        potential_matches = [word for word in self.word_database if len(word) == word_length]
+        st.write(f"Number of potential matches based on word length: {len(potential_matches)}")
         filtered_words = [word for word in potential_matches if self.matches_state(word, current_state)]
         return filtered_words
-
-
 
     def next_guess(self, current_state):
         potential_matches = self.filter_words(current_state)
         if not potential_matches:
             return None
 
-        position_to_guess = current_state.index("_")  # This is the position the AI should guess for
-        st.write(f"Number of potential matches based on word length: {len(potential_matches)}")    
-        # Build a frequency distribution of letters in the potential match list for the first underscore
+        position_to_guess = current_state.index("_")
         frequency_distribution = defaultdict(int)
         for word in potential_matches:
-            letter = word[position_to_guess]  # Focus on the correct position
+            letter = word[position_to_guess]
             if letter not in self.already_guessed:
                 frequency_distribution[letter] += 1
 
-        # If no new letters are available, return None (AI runs out of guesses)
         if not frequency_distribution:
             return None
 
-        # Use the frequency distribution and letter weights to determine the best guess
         guess = max(frequency_distribution, key=lambda k: (frequency_distribution[k], letter_weights.get(k, 0)))
         self.already_guessed.append(guess)
         return guess
 
     def matches_state(self, word, state):
-        """Check if a word from the database matches the current guessed state pattern."""
         for w, s in zip(word, state):
             if s != '_' and w.lower() != s.lower():
                 return False
-        position = state.index('_')  # Get the current guessing position
-        if word[position] in self.wrong_guesses:  # Check only the current position against wrong guesses
+        position = state.index('_')
+        if word[position] in self.wrong_guesses:
             return False
         return True
 
@@ -114,12 +104,9 @@ def play_game(target_word):
     cow_game = CowHangman()
 
     while "_" in hangman.get_state() and not cow_game.is_game_over():
-        col1, col2 = st.columns(2)  # Create two columns
+        col1, col2 = st.columns(2)
 
-        # Display game state in the first column
         col1.write(f"Current state: {hangman.get_state()}")
-
-        # Display cow's lives in the second column
         col2.write(cow_game.display())
 
         ai_guess = player.next_guess(hangman.get_state())
@@ -130,10 +117,10 @@ def play_game(target_word):
             if target_word[current_pos].lower() == ai_guess:
                 st.write("Right guess!")
                 hangman.update_state(ai_guess.upper())
-                player.reset_guessed()  # Resetting the guessed letters for the next position
+                player.reset_guessed()
             else:
                 st.write("Wrong guess!")
-                player.wrong_guesses.append(ai_guess)  
+                player.wrong_guesses.append(ai_guess)
                 cow_game.lose_life()
         else:
             st.write("AI is out of guesses.")
