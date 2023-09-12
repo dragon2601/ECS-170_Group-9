@@ -38,11 +38,9 @@ class HangmanGame:
             return True
         return False
 
-    def update_state(self, positions, letter):
-        state_list = list(self.state)
-        for pos in positions:
-            state_list[pos] = letter
-        self.state = ''.join(state_list)
+    def update_state(self, letter):
+        """Update the game state by replacing the next underscore with the given letter."""
+        self.state = self.state.replace("_", letter, 1)
 
 class EntropyBasedPlayer:
     def __init__(self, word_database):
