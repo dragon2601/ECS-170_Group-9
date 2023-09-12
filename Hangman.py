@@ -94,23 +94,13 @@ class EntropyBasedPlayer:
     def reset_guessed(self):
         self.already_guessed = []
 
-import streamlit as st
-from cow import CowHangman
-import random
-import string
-import pandas as pd
-
-# Your provided code starts here
-df = pd.read_csv("Database.csv")
-word_database = df['Word'].tolist()
-game_over = False
-
 def initialize():
     st.session_state.number_of_letters = 0
     st.session_state.game_started = False
     st.session_state.cow_game = CowHangman()
     st.session_state.hangman_game = HangmanGame(st.session_state.number_of_letters)
     st.session_state.player = EntropyBasedPlayer(word_database)
+    st.session_state.positions = []
 
 
 def main():
@@ -136,13 +126,24 @@ def main():
         guess = st.session_state.player.next_guess(st.session_state.hangman_game.get_state())
         st.text(f"Computer guesses: {guess}")
 
+        # Handle the right guess
         if st.button("Right Guess"):
-            # Logic to update the state with the correct guess goes here
-            # For now, we'll just move on to the next guess
-            pass
-        
+            word_list = list(st.session_state.hangman_game.get_state())
+            for idx, char in enumerate(word_list):
+                if char == "_":
+                    word_list[idx] = guess
+                    st.session_state.positions.append(idx)
+                    break
+            st.session_state.hangman_game.update_state(st.session_state.positions, guess)
+            st.session_state.positions = []  # Reset for the next guess
+
         if st.button("Wrong Guess"):
             st.session_state.cow_game.lose_life()
+
+            if st.session_state.cow_game.lives <= 0:
+                st.text("The AI lost!")
+                if st.button("Restart Game"):
+                    initialize()
 
         if st.button("End Game"):
             initialize()
@@ -150,10 +151,13 @@ def main():
         # Display cow based on lives
         st.text(st.session_state.cow_game.display_cow())
 
+        # Check for game win
+        if "_" not in st.session_state.hangman_game.get_state():
+            st.text("The AI has won!")
+            if st.button("Restart Game"):
+                initialize()
 
 if __name__ == "__main__":
     main()
-
-
 
     
