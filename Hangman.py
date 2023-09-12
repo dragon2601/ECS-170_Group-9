@@ -128,11 +128,12 @@ def play_game(target_word):
         ai_guess = player.next_guess(hangman.get_state())
         st.write(f"AI's guess is: {ai_guess}")
 
-        if ai_guess in target_word:  # Correct guess
-            positions = [i for i, char in enumerate(target_word) if char == ai_guess]
-            hangman.update_state(positions, ai_guess)
+        # Check if the guess is in the current position to be revealed
+        current_pos = hangman.get_state().index("_")  # Get the first underscore position
+        if target_word[current_pos] == ai_guess:
+            hangman.update_state([current_pos], ai_guess)
             player.reset_guessed()
-        else:  # Wrong guess
+        else:
             cow_game.lose_life()
 
     if "_" not in hangman.get_state():
@@ -144,6 +145,8 @@ if __name__ == "__main__":
     user_word = st.text_input("Enter your word:").upper()  # Assuming words in database are uppercase
     if user_word:
         play_game(user_word)
+
+
 
 
 
