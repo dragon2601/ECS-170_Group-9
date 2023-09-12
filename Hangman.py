@@ -77,12 +77,21 @@ class EntropyBasedPlayer:
         return guess
 
     def matches_state(self, word, state):
+        st.write(f"Checking word {word} against state {state}")
+    
         for w, s in zip(word, state):
             if s != '_' and w.lower() != s.lower():
+                st.write(f"Word {word} does not match the state due to {w} != {s}")
                 return False
+    
         position = state.index('_')
+        st.write(f"Next guessing position: {position}")
+
         if word[position] in self.wrong_guesses:
+            st.write(f"Word {word} discarded due to previous wrong guess at position {position}: {word[position]}")
             return False
+        
+        st.write(f"Word {word} is a potential match for state {state}")
         return True
 
     def reset_guessed(self):
