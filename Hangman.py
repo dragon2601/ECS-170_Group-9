@@ -47,30 +47,29 @@ class HangmanGame:
 class EntropyBasedPlayer:
     def __init__(self, word_database):
         self.word_database = word_database
-        self.already_guessed = []
-        self.wrong_guesses = []
-        self.game_over = False
+        self.already_guessed = set()
 
-    def filter_words(self, word_length):
-        return [word for word in self.word_database if len(word) == word_length]
+    def filter_words(self, pattern):
+        return [word for word in self.word_database if self.match_pattern(word, pattern)]
 
     def next_guess(self, current_state):
-        next_position_to_guess = current_state.index('_')
-        possible_words = [word for word in self.word_database if self.match_pattern(word, current_state)]
+        possible_words = self.filter_words(current_state)
 
         if not possible_words:
-            self.game_over = True
             return None
 
         letter_counts = defaultdict(int)
         for word in possible_words:
-            letter = word[next_position_to_guess].lower()
-            if letter not in self.wrong_guesses:
-                letter_counts[letter] += 1
+            for letter in word:
+                if letter not in self.already_guessed:
+                    letter_counts[letter] += 1
 
         sorted_letters = sorted(letter_counts.items(), key=lambda x: x[1], reverse=True)
+
         if sorted_letters:
-            return sorted_letters[0][0].lower()
+            next_guess = sorted_letters[0][0]
+            self.already_guessed.add(next_guess)
+            return next_guess
         else:
             return None
 
@@ -82,6 +81,7 @@ class EntropyBasedPlayer:
             if pattern[i] != '_' and pattern[i].lower() != word[i].lower():
                 return False
         return True
+
 
     def reset_guessed(self):
         self.already_guessed = []
