@@ -132,6 +132,10 @@ def run_game():
     st.write("AI is trying to guess your word...")
     st.write(f"Current state: {st.session_state.hangman.get_state()}")
     
+    # Initialize st.session_state.guess if not present
+    if not hasattr(st.session_state, 'guess'):
+        st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
+    
     # Check if word is completely guessed
     if "_" not in st.session_state.hangman.get_state():
         st.success("AI has successfully guessed the word!")
