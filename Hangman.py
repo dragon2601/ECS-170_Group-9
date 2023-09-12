@@ -66,10 +66,12 @@ class EntropyBasedPlayer:
         if not potential_matches:
             return None
 
+        position_to_guess = current_state.index("_")  # This is the position the AI should guess for
+
         # Build a frequency distribution of letters in the potential match list for the first underscore
         frequency_distribution = defaultdict(int)
         for word in potential_matches:
-            letter = word[current_state.index("_")]  # Considering the letter at the current underscore
+            letter = word[position_to_guess]  # Focus on the correct position
             if letter not in self.already_guessed:
                 frequency_distribution[letter] += 1
 
@@ -77,11 +79,10 @@ class EntropyBasedPlayer:
         if not frequency_distribution:
             return None
 
-        # Use the frequency distribution to determine the best guess (without considering the letter_weights for now)
-        guess = max(frequency_distribution, key=frequency_distribution.get)
+        # Use the frequency distribution and letter weights to determine the best guess
+        guess = max(frequency_distribution, key=lambda k: (frequency_distribution[k], letter_weights.get(k, 0)))
         self.already_guessed.append(guess)
         return guess
-
 
     def matches_state(self, word, state):
         """Check if a word from the database matches the current guessed state pattern."""
