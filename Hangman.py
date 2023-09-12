@@ -111,7 +111,6 @@ class CowHangman:
         # Implement a display method, or adapt from existing CowHangman code
         return f"Lives left: {self.lives}"
 
-# Streamlit specific game initialization
 def start_page():
     st.title("Hangman AI Game")
     st.write("Welcome to the Hangman AI game! Let the AI guess your word!")
@@ -120,60 +119,47 @@ def start_page():
     st.session_state.word_length = st.number_input("Enter the length of the word:", min_value=1, max_value=20, value=8)
 
     # Start game button
-    if st.button("Start Game"):
+    if st.button("Start Game", key="start_game_btn"):
         st.session_state.hangman = HangmanGame(st.session_state.word_length)
         st.session_state.player = EntropyBasedPlayer(word_database)
         st.session_state.cow_game = CowHangman()
         st.session_state.page = "game_page"
 
-
-
 def run_game():
     st.title("Entropy-based Hangman AI")
     
-    # If game isn't initialized, setup the game variables
-    if not hasattr(st.session_state, 'hangman'):
-        st.session_state.hangman = HangmanGame(st.session_state.word_length)
-        st.session_state.player = EntropyBasedPlayer(word_database)
-        st.session_state.cow_game = CowHangman()
-        st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
-        st.session_state.is_correct = None
-    
+    # This is already initialized in start_page. Don't reinitialize here.
     st.write("AI is trying to guess your word...")
     st.write(f"Current state: {st.session_state.hangman.get_state()}")
     
+    # Check if word is completely guessed
     if "_" not in st.session_state.hangman.get_state():
         st.success("AI has successfully guessed the word!")
         return
 
+    # Show the current guess of the AI
     st.write(f"AI guesses: {st.session_state.guess}")
 
+    # Player provides feedback on the guess
     if st.button("Right Guess"):
+        # Update the hangman state
         positions = [i for i, char in enumerate(st.session_state.hangman.get_state()) if char == "_"]
         st.session_state.hangman.update_state(positions, st.session_state.guess)
         st.session_state.player.reset_guessed()
         st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
+        
     elif st.button("Wrong Guess"):
         st.write("Guess is incorrect.")
         st.session_state.cow_game.lose_life()
+
         if st.session_state.cow_game.is_game_over():
             st.error("AI lost!")
             return
+
+        # Get the next guess for the AI
         st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
 
-    # Check the game state at the end
-    if "_" not in st.session_state.hangman.get_state():
-        st.success("AI has successfully guessed the word!")
 # Streamlit app starts here
-if not hasattr(st.session_state, 'word_length'):
-    st.title("Welcome to Hangman AI")
-    st.session_state.word_length = st.number_input("Enter the length of the word:", value=8, step=1)
-    
-    if st.button("Start Game"):
-        run_game()
-else:
-    run_game()
-
 if __name__ == "__main__":
     # Check for page in session state
     if "page" not in st.session_state:
@@ -184,6 +170,3 @@ if __name__ == "__main__":
         start_page()
     elif st.session_state.page == "game_page":
         run_game()
-
-
-    
