@@ -53,10 +53,13 @@ class EntropyBasedPlayer:
     def filter_words(self, current_state):
         """Filter the word database to only words that match the current state pattern."""
         word_length = len(current_state)
-        # Consider only words that have the exact same length as current_state
-        potential_matches = [word for word in self.word_database if len(word) == word_length]
-        # Further filter the list to match the current state pattern
+        print(f"Number of potential matches based on word length: {len(potential_matches)}")  # Debugging line
+
+        # Filter words that don't match the current state and wrong guesses
         filtered_words = [word for word in potential_matches if self.matches_state(word, current_state)]
+    
+        print(f"Number of potential matches after filtering with current state: {len(filtered_words)}")  # Debugging line
+
         return filtered_words
 
 
@@ -67,7 +70,8 @@ class EntropyBasedPlayer:
             return None
 
         position_to_guess = current_state.index("_")  # This is the position the AI should guess for
-
+        print(f"Trying to guess for position: {position_to_guess + 1}")  # Debugging line
+    
         # Build a frequency distribution of letters in the potential match list for the first underscore
         frequency_distribution = defaultdict(int)
         for word in potential_matches:
