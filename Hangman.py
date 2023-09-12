@@ -90,6 +90,7 @@ class EntropyBasedPlayer:
     def reset_guessed(self):
         self.already_guessed = []
 
+
 def main():
     st.title('Hangman Game with AI Opponent')
 
@@ -100,14 +101,16 @@ def main():
         st.session_state.word_length = 5
         st.session_state.hangman = None
         st.session_state.player = None
+        st.session_state.confirm_input = False  # To confirm if the input is taken
 
     # Start a new game or change word length
     if st.session_state.game_over or st.session_state.hangman is None:
-        st.session_state.word_length = st.slider("Enter the length of the word:", 1, 20, st.session_state.word_length)
+        st.session_state.word_length = st.slider("Enter the length of the word:", 1, 50, st.session_state.word_length)
         if st.button("Start Game"):
             st.session_state.hangman = HangmanGame(st.session_state.word_length)
             st.session_state.player = EntropyBasedPlayer(word_database)
             st.session_state.game_over = False
+            st.session_state.confirm_input = False
 
     # If game is ongoing
     if st.session_state.hangman:
@@ -120,29 +123,39 @@ def main():
             return
 
         if len(guess) == st.session_state.word_length:
-            is_word = st.radio(f"Is the word {guess}?", ["Yes", "No"])
-            if is_word == "Yes":
+            st.write(f"Is the word {guess}?")
+            st.session_state.is_word_choice = st.button("Yes")
+            st.session_state.not_word_choice = st.button("No")
+            if st.session_state.is_word_choice:
                 st.write("AI won!")
                 st.session_state.game_over = True
-            else:
+            elif st.session_state.not_word_choice:
                 st.write("AI lost!")
                 st.session_state.game_over = True
             return
 
         st.write("AI guesses:", guess)
-        is_correct = st.radio("Is the guess correct?", ["Yes", "No"])
-        if is_correct == 'Yes':
+        if st.button("Correct"):
+            st.session_state.confirm_input = True
             positions = [i for i, char in enumerate(st.session_state.hangman.get_state()) if char == "_"]
             if positions:
                 st.session_state.hangman.update_state([positions[0]], guess)
                 st.session_state.player.reset_guessed()
-        else:
+        elif st.button("Incorrect"):
+            st.session_state.confirm_input = True
             st.write("Guess is incorrect.")
             # Assuming cow_game is similar to Hangman game mechanism.
             # If you have a specific way of handling this with the cow_game logic, you can replace the below lines.
             if "_" not in st.session_state.hangman.get_state():
                 st.write("AI lost!")
                 st.session_state.game_over = True
+
+    # Confirm button for taking the input
+    if st.session_state.confirm_input:
+        if st.button("Enter"):
+            st.session_state.confirm_input = False
+
+
 try:
     if __name__ == "__main__":
         main()
