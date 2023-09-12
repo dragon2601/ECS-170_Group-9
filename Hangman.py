@@ -1,7 +1,8 @@
 import sys
 import pandas as pd
 import streamlit as st
-import pandas as pd
+from cow import CowHangman
+
 
 df = pd.read_csv("Database.csv")
 word_database = df['Word'].tolist()
@@ -92,69 +93,64 @@ class EntropyBasedPlayer:
 
 
 def main():
-    if 'game_started' not in st.session_state:
-        st.session_state.game_started = False
-    if 'game_over' not in st.session_state:
-        st.session_state.game_over = False
+    st.title('Entropy-based Hangman Game')
+    
+    if 'page' not in st.session_state:
+        st.session_state.page = 'start'
 
-    if not st.session_state.game_started:
-        st.title("Welcome to Hangman AI!")
-        if st.button("Start Game"):
-            st.session_state.game_started = True
-            st.session_state.game_over = False
-            # Initialize game states
+    # Start page
+    if st.session_state.page == 'start':
+        if st.button('Start Game'):
+            # Initialize the game's necessary variables
             st.session_state.cow_game = CowHangman()
-            st.session_state.word_length = st.slider("Choose the word length", min_value=1, max_value=max(map(len, word_database)), value=5)
+            st.session_state.word_length = st.slider("Select the word length", 1, 100, 5)
             st.session_state.hangman = HangmanGame(st.session_state.word_length)
             st.session_state.player = EntropyBasedPlayer(word_database)
-            st.session_state.correct_guess = False
-
-    elif st.session_state.game_started and not st.session_state.game_over:
-        st.title("Playing Hangman AI")
-        
+            st.session_state.page = 'game'
+            
+    # Game page
+    elif st.session_state.page == 'game':
         st.write("Current state:", st.session_state.hangman.get_state())
         guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
+        st.write(f"AI guesses: {guess}")
 
         if guess is None:
             st.write("AI is out of guesses!")
-            st.session_state.game_over = True
-        elif len(guess) == st.session_state.word_length:
-            st.write(f"AI guesses the word is: {guess}")
-            st.session_state.correct_guess = st.button("Correct")
-            st.session_state.wrong_guess = st.button("Incorrect")
-            if st.session_state.correct_guess:
-                st.write("AI won!")
-                st.session_state.game_over = True
-            elif st.session_state.wrong_guess:
+            if st.session_state.cow_game.lives <= 0:
                 st.write("AI lost!")
-                st.session_state.game_over = True
+                if st.button('End'):
+                    st.session_state.page = 'start'
+                    return
+
+        elif len(guess) == st.session_state.word_length:
+            st.write(f"Is the word {guess}?")
+            if st.button('Yes'):
+                st.write("AI won!")
+                if st.button('End'):
+                    st.session_state.page = 'start'
+                    return
+            elif st.button('No'):
+                st.write("AI lost!")
+                if st.button('End'):
+                    st.session_state.page = 'start'
+                    return
         else:
-            st.write(f"AI guesses the letter: {guess}")
-            st.session_state.correct_guess = st.button("Correct")
-            st.session_state.wrong_guess = st.button("Incorrect")
-            if st.session_state.correct_guess:
-                # Handle the game logic for a correct guess
-                positions = []
-                word_list = list(st.session_state.hangman.get_state())
-                for idx, char in enumerate(word_list):
-                    if char == "_":
-                        word_list[idx] = guess
-                        positions.append(idx)
-                        break
+            st.write("Is the guess correct?")
+            if st.button('Correct'):
+                # Same logic as before...
+                positions = [idx for idx, char in enumerate(st.session_state.hangman.get_state()) if char == "_"]
                 st.session_state.hangman.update_state(positions, guess)
                 st.session_state.player.reset_guessed()
-            elif st.session_state.wrong_guess:
-                # Handle the game logic for a wrong guess
+            elif st.button('Incorrect'):
                 st.session_state.cow_game.lose_life()
-                if st.session_state.cow_game.is_game_over():
+                st.write(f"Lives remaining: {st.session_state.cow_game.lives}")
+                if st.session_state.cow_game.lives <= 0:
                     st.write("AI lost!")
-                    st.session_state.game_over = True
-
-    if st.session_state.game_over:
-        if st.button("End Game"):
-            st.session_state.game_started = False
-
+                    if st.button('End'):
+                        st.session_state.page = 'start'
+                        return
 
 if __name__ == "__main__":
     main()
+
     
