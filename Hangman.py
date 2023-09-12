@@ -59,6 +59,7 @@ class EntropyBasedPlayer:
     def __init__(self, word_database):
         self.word_database = word_database
         self.already_guessed = []
+        self.wrong_guesses = []  # Added this line to keep track of wrong guesses
 
     def filter_words(self, word_length):
         return [word for word in self.word_database if len(word) == word_length]
@@ -99,14 +100,18 @@ class EntropyBasedPlayer:
 
         # Count the occurrence of each letter in the next position among the possible words
         for word in possible_words:
-            letter_counts[word[next_position_to_guess]] += 1
+            letter = word[next_position_to_guess].lower()
+            if letter not in self.wrong_guesses:  # Ensure that the letter hasn't been guessed incorrectly
+                letter_counts[letter] += 1
 
         # Sort the letters by their counts and get the most frequent one
         sorted_letters = sorted(letter_counts.items(), key=lambda x: x[1], reverse=True)
-    
-        guessed_letter = sorted_letters[0][0].lower()
-        self.already_guessed.append(guessed_letter)  # Add the guessed letter to the list
 
+        if sorted_letters:
+            return sorted_letters[0][0].lower()
+        else:
+            return None
+        
         return guessed_letter
     
 
@@ -131,6 +136,7 @@ class EntropyBasedPlayer:
 
     def reset_guessed(self):
         self.already_guessed = []
+        self.wrong_guesses = []  # Clear wrong guesses when a right guess is made
 
 
 
@@ -178,6 +184,7 @@ def play_game(target_word):
             player.reset_guessed()
         else:
             st.write("Wrong guess!")
+            player.wrong_guesses.append(ai_guess)
             cow_game.lose_life()
 
     if "_" not in hangman.get_state():
