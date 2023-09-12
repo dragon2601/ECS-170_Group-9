@@ -112,11 +112,15 @@ class CowHangman:
         return f"Lives left: {self.lives}"
 
 
+
 def play_game():
-    if "hangman" not in st.session_state:
+    if "initialized" not in st.session_state:
         st.session_state.hangman = HangmanGame(st.session_state.word_length)
         st.session_state.player = EntropyBasedPlayer(word_database)
         st.session_state.cow_game = CowHangman()
+        st.session_state.initialized = True
+        st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
+        return
 
     if st.session_state.cow_game.is_game_over():
         st.write("Game over! AI lost.")
@@ -124,6 +128,7 @@ def play_game():
             del st.session_state.hangman
             del st.session_state.player
             del st.session_state.cow_game
+            del st.session_state.initialized
         return
 
     if "_" not in st.session_state.hangman.get_state():
@@ -132,20 +137,32 @@ def play_game():
             del st.session_state.hangman
             del st.session_state.player
             del st.session_state.cow_game
+            del st.session_state.initialized
         return
 
-    guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
-    st.write(f"AI's guess is: {guess}")
+    st.write(f"AI's guess is: {st.session_state.guess}")
 
     if st.button("Correct"):
         positions = [i for i, c in enumerate(st.session_state.hangman.get_state()) if c == "_"]
-        st.session_state.hangman.update_state(positions, guess)
+        st.session_state.hangman.update_state(positions, st.session_state.guess)
         st.session_state.player.reset_guessed()
+        st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
     elif st.button("Incorrect"):
         st.session_state.cow_game.lose_life()
         st.write(f"Lives left: {st.session_state.cow_game.lives}")
+        st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
         
     st.write(f"Current state: {st.session_state.hangman.get_state()}")
+
+if __name__ == "__main__":
+    st.title("Hangman AI Game")
+    st.write("Welcome to the Hangman AI game! Let the AI guess your word!")
+    
+    if "word_length" not in st.session_state:
+        st.session_state.word_length = st.number_input("Enter the length of the word:", min_value=1, max_value=20, value=8)
+    else:
+        play_game()
+
 
 if __name__ == "__main__":
     st.title("Hangman AI Game")
