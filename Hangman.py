@@ -74,13 +74,14 @@ class EntropyBasedPlayer:
         return guess
 
     def matches_state(self, word, state):
+        """Check if a word from the database matches the current guessed state pattern."""
         for w, s in zip(word, state):
             if s != '_' and w.lower() != s.lower():
                 return False
-        position = state.index('_')
-        if word[position] in self.wrong_guesses:
-            return False
+            if s == '_' and w.lower() in self.already_guessed:
+                return False
         return True
+
 
     def reset_guessed(self):
         self.already_guessed = []
