@@ -220,6 +220,7 @@ def information_section():
 
 if __name__ == "__main__":
     st.title("🐄 Hangman AI Game 🐄")
+    information_section()
     user_word = st.text_input("Enter your word:")
     if user_word:
         play_game(user_word.lower())
