@@ -157,8 +157,8 @@ class CowHangman:
 
 
 def play_game(target_word):
-    st.title("Hangman AI Game")
-    st.write("Welcome to the Hangman AI game! Let's see if the AI can guess your word.")
+    st.title("🎩 Hangman AI Game 🎩")
+    st.markdown("**Welcome to the Hangman AI game!** Let's see if the AI can guess your word.")
 
     # Initialize the game and player
     hangman = HangmanGame(len(target_word))
@@ -166,7 +166,11 @@ def play_game(target_word):
     cow_game = CowHangman()
 
     while "_" in hangman.get_state() and not cow_game.is_game_over():
-        st.write(f"Current state: {hangman.get_state()}")
+        col1, col2 = st.beta_columns(2)
+        with col1:
+            st.markdown(f"### Current state: {hangman.get_state()}")
+        with col2:
+            st.markdown(f"### {cow_game.display()}")
 
         # Display the AI's guess
         ai_guess = player.next_guess(hangman.get_state())
@@ -174,6 +178,7 @@ def play_game(target_word):
             st.write(f"AI's guess is: {ai_guess}")
         else:
             st.write("AI is out of guesses.")
+
 
         # Check if the guess is in the current position to be revealed
         current_pos = hangman.get_state().index("_")  # Get the first underscore position
@@ -191,10 +196,14 @@ def play_game(target_word):
         st.success(f"AI has successfully guessed the word: {hangman.get_state()}")
     else:
         st.error("AI couldn't guess the word!")
-
+    
+    # Play Again Button
+    if st.button('Play Again?'):
+        st.experimental_rerun()
 
 if __name__ == "__main__":
-    user_word = st.text_input("Enter your word:").upper()  # Assuming words in database are uppercase
+    st.markdown("**Enter your word:**")
+    user_word = st.text_input("", placeholder="E.g., California").upper()
     if user_word:
         play_game(user_word)
 
