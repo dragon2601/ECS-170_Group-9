@@ -101,7 +101,7 @@ def play_game(target_word):
     player = EntropyBasedPlayer(word_database)
     cow_game = CowHangman()
 
-    while "_" in hangman.get_state() and not cow_game.is_game_over() and not player.has_max_wrong_guesses():
+    while "_" in hangman.get_state() and not cow_game.is_game_over():
         col1, col2 = st.columns(2)  # Create two columns
 
         # Display game state in the first column
