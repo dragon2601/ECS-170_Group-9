@@ -90,7 +90,7 @@ class EntropyBasedPlayer:
         self.wrong_guesses = []
         
     def has_max_wrong_guesses(self):
-    return len(self.wrong_guesses) >= 7
+        return len(self.wrong_guesses) >= 7
 
 
 class CowHangman:
