@@ -111,47 +111,49 @@ class CowHangman:
         # Implement a display method, or adapt from existing CowHangman code
         return f"Lives left: {self.lives}"
 
-def start_page():
-    st.title("Hangman AI Game")
-    st.write("Welcome to the Hangman AI game! Let the AI guess your word!")
-    st.session_state.word_length = st.number_input("Enter the length of the word:", min_value=1, max_value=20, value=8)
-    if st.button("Start Game"):
+
+def play_game():
+    if "hangman" not in st.session_state:
         st.session_state.hangman = HangmanGame(st.session_state.word_length)
         st.session_state.player = EntropyBasedPlayer(word_database)
         st.session_state.cow_game = CowHangman()
-        st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
-        st.session_state.page = "game_page"
 
-def game_page():
-    st.title("Hangman AI Game")
-    st.write("AI is trying to guess your word...")
+    if st.session_state.cow_game.is_game_over():
+        st.write("Game over! AI lost.")
+        if st.button("Restart"):
+            del st.session_state.hangman
+            del st.session_state.player
+            del st.session_state.cow_game
+        return
+
+    if "_" not in st.session_state.hangman.get_state():
+        st.write(f"AI successfully guessed the word {st.session_state.hangman.get_state()}!")
+        if st.button("Restart"):
+            del st.session_state.hangman
+            del st.session_state.player
+            del st.session_state.cow_game
+        return
+
+    guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
+    st.write(f"AI's guess is: {guess}")
+
+    if st.button("Correct"):
+        positions = [i for i, c in enumerate(st.session_state.hangman.get_state()) if c == "_"]
+        st.session_state.hangman.update_state(positions, guess)
+        st.session_state.player.reset_guessed()
+    elif st.button("Incorrect"):
+        st.session_state.cow_game.lose_life()
+        st.write(f"Lives left: {st.session_state.cow_game.lives}")
+        
     st.write(f"Current state: {st.session_state.hangman.get_state()}")
+
+if __name__ == "__main__":
+    st.title("Hangman AI Game")
+    st.write("Welcome to the Hangman AI game! Let the AI guess your word!")
     
-    if "_" in st.session_state.hangman.get_state() and not st.session_state.cow_game.is_game_over():
-        st.write(f"AI's guess: {st.session_state.guess}")
-        if st.button("Right Guess"):
-            positions = [i for i, char in enumerate(st.session_state.hangman.get_state()) if char == "_"]
-            st.session_state.hangman.update_state(positions, st.session_state.guess)
-            st.session_state.player.reset_guessed()
-            st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
-            
-        elif st.button("Wrong Guess"):
-            st.session_state.cow_game.lose_life()
-            st.session_state.guess = st.session_state.player.next_guess(st.session_state.hangman.get_state())
-    else:
-        if "_" not in st.session_state.hangman.get_state():
-            st.success("AI won!")
-            st.session_state.page = "start_page"
-        else:
-            st.error("AI lost!")
-            st.session_state.page = "start_page"
+    if "word_length" not in st.session_state:
+        st.session_state.word_length = st.number_input("Enter the length of the word:", min_value=1, max_value=20, value=8)
 
-# Streamlit app routing
-if "page" not in st.session_state:
-    st.session_state.page = "start_page"
+    play_game()
 
-if st.session_state.page == "start_page":
-    start_page()
-elif st.session_state.page == "game_page":
-    game_page()
 
