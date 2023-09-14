@@ -211,7 +211,7 @@ def information_section():
     st.sidebar.header('📖 Information Section 📖')
     
     st.sidebar.write('**1. Brief Overview of the Project**')
-    st.sidebar.write('This project is a Hangman game where the AI tries to guess the word provided by the user.')
+    st.sidebar.write('This game is a UC Davis themed hangman game where the AI must guess the letters in the word given by the user in order.')
 
     st.sidebar.write('**2. Key AI methodologies and techniques employed**')
     st.sidebar.write('The AI uses frequency analysis and word filtering based on user feedback to narrow down possible word choices. It leverages entropy for making educated guesses.')
