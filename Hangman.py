@@ -220,6 +220,11 @@ def information_section():
     st.sidebar.write('One of the main challenges was handling repeated letters in words and efficiently filtering the database of words based on the game’s current state. This was resolved by refining the word filtering algorithm and leveraging a weighted letter-frequency methodology.')
     
     st.sidebar.write('**Team Members and Contributions:**')
+
+    st.sidebar.write('**Alex Prado:**')
+    st.sidebar.markdown('- Preliminary Contributor')
+    st.sidebar.markdown('- Gave initial patterns we could use for AI')
+    st.sidebar.markdown('- Thought about multiple AI\'s we could use')
     
     st.sidebar.write('**Olive Manupau:**')
     st.sidebar.markdown('- Project Support Specialist')
@@ -227,29 +232,28 @@ def information_section():
     st.sidebar.markdown('- Took active part in brainstorming') 
     st.sidebar.markdown('- Wrote down and assisted in peer reviews') 
     st.sidebar.markdown('- Assisted in the making of the Project Presentation')
+    
+    st.sidebar.write('**Muhammad Reza:**')
+    st.sidebar.markdown('- Database Manager')
+    st.sidebar.markdown('- Created the discord channel)
+    st.sidebar.markdown('- Compared the use of dictionary and csv file')
+    st.sidebar.markdown('- Almost created the whole CSV file')
+    st.sidebar.markdown('- Helped compile the database for AI hangman and wrote code to allow user to append thier word to the database')
 
     st.sidebar.write('**Julie Khalilieh Romman:**')
     st.sidebar.markdown('- Project Manager')
     st.sidebar.markdown('- Coordinated team tasks and maintained the project timeline')
     st.sidebar.markdown('- Researched algorithms')
+    st.sidebar.markdown('- Created the Inital AI code needed for the game ')
     st.sidebar.markdown('- Debugged code and contributed in adding words to the database.')
     st.sidebar.markdown('- Made the Project Presentation')
-    
-
-    st.sidebar.write('**Muhammad Reza:**')
-    st.sidebar.markdown('- Database Manager')
-    st.sidebar.markdown('- Helped compile the database for AI hangman and wrote code to allow user to append thier word to the database')
-
-    st.sidebar.write('**Alex Prado:**')
-    st.sidebar.markdown('- Preliminary Contributor')
-    st.sidebar.markdown('- Gave initial patterns we could use for AI')
-    st.sidebar.markdown('- Thought about multiple AI\'s we could use')
 
     st.sidebar.write('**Atharav Ganesh Samant:**')
     st.sidebar.markdown('- Lead Developer')
     st.sidebar.markdown('- Developed the Game')
+    st.sidebar.markdown('- Created the GitHub Page')
     st.sidebar.markdown('- Wrote code that used the AI in the game')
-    st.sidebar.markdown('- Created the AI logic needed and implemented that in the game')
+    st.sidebar.markdown('- Developed the AI logic created by Julie and implemented that in the game')
     st.sidebar.markdown('- Developed the Website')
 
 
