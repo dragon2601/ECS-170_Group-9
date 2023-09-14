@@ -235,7 +235,7 @@ def information_section():
     
     st.sidebar.write('**Muhammad Reza:**')
     st.sidebar.markdown('- Database Manager')
-    st.sidebar.markdown('- Created the discord channel)
+    st.sidebar.markdown('- Created the discord channel')
     st.sidebar.markdown('- Compared the use of dictionary and csv file')
     st.sidebar.markdown('- Almost created the whole CSV file')
     st.sidebar.markdown('- Helped compile the database for AI hangman and wrote code to allow user to append thier word to the database')
