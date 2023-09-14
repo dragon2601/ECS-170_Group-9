@@ -209,6 +209,7 @@ def play_game(target_word):
 
 def information_section():
     st.sidebar.header('📖 Information Section 📖')
+    
     st.sidebar.write('**1. Brief Overview of the Project**')
     st.sidebar.write('This project is a Hangman game where the AI tries to guess the word provided by the user.')
 
@@ -218,8 +219,39 @@ def information_section():
     st.sidebar.write('**3. Challenges faced and their resolutions**')
     st.sidebar.write('One of the main challenges was handling repeated letters in words and efficiently filtering the database of words based on the game’s current state. This was resolved by refining the word filtering algorithm and leveraging a weighted letter-frequency methodology.')
     
-    st.sidebar.write('**Team Members:**')
-    st.sidebar.write('Olive Manupau, Julie Khalilieh Romman, Alex Prado, Muhammad Reza, Atharav Ganesh Samant')
+    st.sidebar.write('**Team Members and Contributions:**')
+    
+    st.sidebar.write('**Olive Manupau:**')
+    st.sidebar.markdown('- Project Support Specialist')
+    st.sidebar.markdown('- Assisted in creating the database')
+    st.sidebar.markdown('- Took active part in brainstorming') 
+    st.sidebar.markdown('- Wrote down and assisted in peer reviews') 
+    st.sidebar.markdown('- Assisted in the making of the Project Presentation')
+
+    st.sidebar.write('**Julie Khalilieh Romman:**')
+    st.sidebar.markdown('- Project Manager')
+    st.sidebar.markdown('- Coordinated team tasks and maintained the project timeline')
+    st.sidebar.markdown('- Researched algorithms')
+    st.sidebar.markdown('- Debugged code and contributed in adding words to the database.')
+    st.sidebar.markdown('- Made the Project Presentation')
+    
+
+    st.sidebar.write('**Muhammad Reza:**')
+    st.sidebar.markdown('- Database Manager')
+    st.sidebar.markdown('- Helped compile the database for AI hangman and wrote code to allow user to append thier word to the database')
+
+    st.sidebar.write('**Alex Prado:**')
+    st.sidebar.markdown('- Preliminary Contributor')
+    st.sidebar.markdown('- Gave initial patterns we could use for AI')
+    st.sidebar.markdown('- Thought about multiple AI\'s we could use')
+
+    st.sidebar.write('**Atharav Ganesh Samant:**')
+    st.sidebar.markdown('- Lead Developer')
+    st.sidebar.markdown('- Developed the Game')
+    st.sidebar.markdown('- Wrote code that used the AI in the game')
+    st.sidebar.markdown('- Created the AI logic needed and implemented that in the game')
+    st.sidebar.markdown('- Developed the Website')
+
 
 if __name__ == "__main__":
     st.title("🐄 Hangman AI Game 🐄")
