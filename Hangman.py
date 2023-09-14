@@ -253,7 +253,7 @@ def information_section():
     st.sidebar.markdown('- Developed the Game')
     st.sidebar.markdown('- Created the GitHub Page')
     st.sidebar.markdown('- Wrote code that used the AI in the game')
-    st.sidebar.markdown('- Developed the AI logic created by Julie and implemented that in the game')
+    st.sidebar.markdown('- Developed on the AI logic created by Julie and implemented that in the game')
     st.sidebar.markdown('- Developed the Website')
 
 
